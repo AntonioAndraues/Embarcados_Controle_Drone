@@ -110,10 +110,10 @@ int hc05_server_init(void) {
 	char buffer_rx[128];
 	usart_send_command(USART0, buffer_rx, 1000, "AT", 1000);
 	usart_send_command(USART0, buffer_rx, 1000, "AT", 1000);	
-	usart_send_command(USART0, buffer_rx, 1000, "AT+NAMEServer", 1000);
+	usart_send_command(USART0, buffer_rx, 1000, "AT+NAMEDroneGauntlet", 1000);
 	usart_log("hc05_server_init", buffer_rx);
 	usart_send_command(USART0, buffer_rx, 1000, "AT", 1000);
-	usart_send_command(USART0, buffer_rx, 1000, "AT+PIN0000", 1000);
+	usart_send_command(USART0, buffer_rx, 1000, "AT+PIN1234", 1000);
 	usart_log("hc05_server_init", buffer_rx);
 }
 
@@ -134,18 +134,25 @@ int main (void)
 	#endif
 	
 	char button1 = '0';
+	char button2 = '3';
 	char eof = 'X';
 	char buffer[1024];
 	
 	while(1) {
-		if(pio_get(PIOA, PIO_INPUT, PIO_PA11) == 0) {
+		if(pio_get(PIOA, PIO_INPUT, PIO_PA4) == 0) {
 			button1 = '1';
 		} else {
 			button1 = '0';
 		}
-		
+		if(pio_get(PIOA, PIO_INPUT, PIO_PA3) == 0) {
+			button2 = '2';
+			} else {
+			button2 = '3';
+		}
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, button1);
+		while(!usart_is_tx_ready(UART_COMM));
+		usart_write(UART_COMM, button2);
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, eof);
 	}
