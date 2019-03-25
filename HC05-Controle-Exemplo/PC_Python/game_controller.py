@@ -7,6 +7,9 @@ import pyvjoy # Windows apenas
 class MyControllerMap:
     def __init__(self):
         self.button = {'A': 1}
+        self.button2 = {'B': 1}
+        self.button3 = {'C': 1}
+        self.button4 = {'D': 1}
 
 
 class SerialControllerInterface:
@@ -38,6 +41,39 @@ class SerialControllerInterface:
 
         self.incoming = self.ser.read()
 
+        data = self.ser.read()
+        logging.debug("Received DATA: {}".format(data))
+
+        if data == b'2':
+            logging.info("Sending press")
+            self.j.set_button(self.mapping.button2['B'], 1)
+        elif data == b'3':
+            self.j.set_button(self.mapping.button2['B'], 0)
+
+        self.incoming = self.ser.read()
+
+        data = self.ser.read()
+        logging.debug("Received DATA: {}".format(data))
+
+        if data == b'4':
+            logging.info("Sending press")
+            self.j.set_button(self.mapping.button3['C'], 1)
+        elif data == b'5':
+            self.j.set_button(self.mapping.button3['C'], 0)
+
+        self.incoming = self.ser.read()
+
+        data = self.ser.read()
+        logging.debug("Received DATA: {}".format(data))
+
+        if data == b'6':
+            logging.info("Sending press")
+            self.j.set_button(self.mapping.button4['D'], 1)
+        elif data == b'7':
+            self.j.set_button(self.mapping.button4['D'], 0)
+
+        self.incoming = self.ser.read()
+
 
 class DummyControllerInterface:
     def __init__(self):
@@ -51,12 +87,34 @@ class DummyControllerInterface:
         logging.info("[Dummy] Pressed A button")
         time.sleep(1)
 
+        self.j.set_button(self.mapping.button2['B'], 1)
+        time.sleep(0.1)
+        self.j.set_button(self.mapping.button2['B'], 0)
+        logging.info("[Dummy] Pressed B button")
+        time.sleep(1)
+
+        self.j.set_button(self.mapping.button3['C'], 1)
+        time.sleep(0.1)
+        self.j.set_button(self.mapping.button3['C'], 0)
+        logging.info("[Dummy] Pressed C button")
+        time.sleep(1)
+
+        self.j.set_button(self.mapping.button4['D'], 1)
+        time.sleep(0.1)
+        self.j.set_button(self.mapping.button4['D'], 0)
+        logging.info("[Dummy] Pressed D button")
+        time.sleep(1)
+
+
+
+
+
 
 if __name__ == '__main__':
     interfaces = ['dummy', 'serial']
     argparse = argparse.ArgumentParser()
     argparse.add_argument('serial_port', type=str)
-    argparse.add_argument('-b', '--baudrate', type=int, default=9600)
+    argparse.add_argument('-b', '--baudrate', type=int, default=115200)
     argparse.add_argument('-c', '--controller_interface', type=str, default='serial', choices=interfaces)
     argparse.add_argument('-d', '--debug', default=False, action='store_true')
     args = argparse.parse_args()

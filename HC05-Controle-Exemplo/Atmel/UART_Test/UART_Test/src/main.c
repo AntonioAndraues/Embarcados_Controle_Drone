@@ -32,6 +32,7 @@
 
 
 /* Ligar pinos //bluetooth: RX - PB1  TX - PB0 // Mioware: sig - PB2 */
+/* Ligar botoes //PA4 -> Botão vermelho , PA3 -> Botão verde , PA19 -> On/Off Botão. */
 
 
 #include <asf.h>
