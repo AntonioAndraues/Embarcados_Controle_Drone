@@ -13,7 +13,7 @@ Controle para drone que baseia-se em sensores de IMU e acelerômetros
     
 - B (2 itens)
 - A (2 itens)
-    - + dedos (com resistor flexivel)
+    - +dedos (com resistor flexivel)
     - controle do drone real
     - giroscopio
     - conectar direto no linux
